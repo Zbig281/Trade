@@ -19,6 +19,14 @@ _targetShape = "assel.dts";
 ```
 You can replace "assel.dts" with any other .dts model you want to use as the trader NPC.
 
+## Client Setup
+
+To enable the trade mod on the client side, make sure to add the following line in your **main.cs**:
+
+```cpp
+exec("mods/client/trade/cmod.cs");
+```
+
 Modding & Editing
 You’re free to modify, edit, expand, and use this mod however you like.
 Everything is open for the community, feel free to build on top of it!
@@ -26,6 +34,7 @@ Everything is open for the community, feel free to build on top of it!
 Credits
 Original base created by Zbig Brodaty.
 If you use anything from this mod, please mention that it was created by Zbig Brodaty.
+
 
 
 [Video demonstration](https://www.youtube.com/watch?v=8nYodt6wQg)
