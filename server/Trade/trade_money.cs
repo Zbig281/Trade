@@ -23,7 +23,6 @@ function TradeInv_RemoveItemId(%client,%itemId){
   return %pl.inventoryRemoveItem(%itemId); // cały stack po ID
 }
 
-// ===================== CHAR ID helper =====================
 function Trade__getCharId(%client){
   if (isMethod(%client,"getCharacterId")) { %cid = %client.getCharacterId(); if (%cid > 0) return %cid; }
   if (%client.characterId !$= "" && %client.characterId > 0) return %client.characterId;
@@ -33,12 +32,7 @@ function Trade__getCharId(%client){
   return 0;
 }
 
-// ===================== DBI DRIVER (tylko SELECT) =====================
-// Jeden globalny obiekt bez 'class'
 if (!isObject(TradeSvcDB)) new ScriptObject(TradeSvcDB);
-
-// Per-client: TradeSvcDB.ctx[cid] = %ctx
-// %ctx: { clientId, charId, payAmount, cb, root, ... }
 
 function Trade_Pay_DB(%client,%amountCopper,%ctx,%cb){
   if (%amountCopper <= 0) { call(%cb,%ctx,true,"OK"); return; }
@@ -175,7 +169,6 @@ function TradeSvcDB::onCoins(%this,%rs){
   %cb=%ctx.cb; call(%cb,%ctx,true,"OK");
   %this.ctx[%cid]="";
 }
-
 // ======================= PAY OUT (coins -> eq) =======================
 function Trade_PayOut(%client, %copper)
 {

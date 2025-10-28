@@ -1,15 +1,8 @@
-// ====================================================================
-// TradeWindow.gui – BUY (oryginał) + SELL (dodane), bez resize krawędzi
-// - Price = GuiTextCtrl (jedna linia)
-// - Qty = pole edycyjne (bez limitów), live przeliczanie ceny
-// - U góry: przyciski Buy / Sell / Refresh (jak w Twoim GUI)
-// ====================================================================
-
 $TradeUI::pollMS     = 2000;
 $TradeUI::timer      = 0;
 $TradeUI::npcId      = 0;
 $TradeUI::lastRxTime = 0;
-$TradeUI::mode       = "buy";   // "buy" (domyślnie jak u Ciebie) | "sell"
+$TradeUI::mode       = "buy";
 
 $TradeUI::root   = "";
 $TradeUI::stack  = "";
@@ -44,17 +37,13 @@ function TradeUI_ShowSoon(){
   if (isObject($TradeUI::text)){$TradeUI::text.setVisible(true);$TradeUI::text.setText("<just:center><font:Arial Bold:18><color:FFCC66>Coming soon!");}
 }
 
-// --- BUY (oryginalny) ------------------------------------------------
-
-function TradeUI_RequestList(%npcId) // zostawiam nazwę i zachowanie jak u Ciebie
+function TradeUI_RequestList(%npcId)
 {
   if (%npcId $= "") %npcId = $TradeUI::npcId; $TradeUI::npcId=%npcId;
   if (!isObject(ServerConnection)) return;
   commandToServer('Trade_Request', %npcId);
   schedule(1000,0,"TradeUI__watchdog", getSimTime());
 }
-
-// --- SELL (nowe) -----------------------------------------------------
 
 function TradeUI_RequestListSell(%npcId)
 {
@@ -63,8 +52,6 @@ function TradeUI_RequestListSell(%npcId)
   commandToServer('Trade_RequestSell', %npcId);
   schedule(1000,0,"TradeUI__watchdog", getSimTime());
 }
-
-// --- wspólny watchdog/poll -------------------------------------------
 
 function TradeUI__watchdog(%t0)
 {
@@ -88,8 +75,6 @@ function TradeUI_RefreshStop()
   cancel($TradeUI::timer); $TradeUI::timer=0;
 }
 
-// --- przełączanie zakładek -------------------------------------------
-
 function TradeUI_SwitchMode(%mode)
 {
   if (%mode !$= "buy" && %mode !$= "sell") %mode = "buy";
@@ -106,8 +91,6 @@ function TradeUI__updateHeader()
     $TradeUI::hdrAct.setText($TradeUI::mode $= "sell" ? "Sell" : "Buy");
 }
 
-// --- profile (Qty + Price) -------------------------------------------
-
 if (!isObject(TradeQtyEditProfile))
 new GuiControlProfile(TradeQtyEditProfile : NewGuiTextEditProfile)
 {
@@ -121,8 +104,6 @@ new GuiControlProfile(TradePriceTextProfile : GuiTextProfile)
 {
   fontType="Arial Bold"; fontSize=14; fontColor="32 32 32 255";
 };
-
-// --- wiersze ----------------------------------------------------------
 
 function TradeUI_UpdateRowTotal(%qtyEdit)
 {
@@ -189,15 +170,13 @@ function TradeUI_AddRow(%id,%name,%icon,%q,%price,%pcs,%dur)
   });
 }
 
-// --- wypełnianie list -------------------------------------------------
-
 function TradeUI_ClearList()
 {
   if (isObject($TradeUI::stack))
     while ($TradeUI::stack.getCount()>0) $TradeUI::stack.getObject(0).delete();
 }
 
-function TradeUI_Fill(%payload) // używane przez Buy (oryginał)
+function TradeUI_Fill(%payload)
 {
   $TradeUI::lastRxTime = getSimTime();
   $TradeUI::mode = "buy"; TradeUI__updateHeader();
@@ -212,7 +191,7 @@ function TradeUI_Fill(%payload) // używane przez Buy (oryginał)
   }
 }
 
-function TradeUI_FillSell(%payload) // nowe dla SELL
+function TradeUI_FillSell(%payload)
 {
   $TradeUI::lastRxTime = getSimTime();
   $TradeUI::mode = "sell"; TradeUI__updateHeader();
@@ -226,8 +205,6 @@ function TradeUI_FillSell(%payload) // nowe dla SELL
     TradeUI_AddRow(getField(%p,0),getField(%p,1),getField(%p,2),getField(%p,3),getField(%p,4),getField(%p,5),getField(%p,6));
   }
 }
-
-// --- akcje ------------------------------------------------------------
 
 function TradeUI_OnBuy(%id, %btn)
 {
@@ -253,8 +230,6 @@ function TradeUI_OnSell(%id, %btn)
   if (isObject(ServerConnection)) commandToServer('Trade_Sell', $TradeUI::npcId, %id, %qty);
 }
 
-// --- RPC z serwera ----------------------------------------------------
-// BUY (Twoje oryginalne)
 function clientCmdTrade_Open(%payload)
 {
   $TradeUI::lastRxTime = getSimTime();
@@ -262,7 +237,7 @@ function clientCmdTrade_Open(%payload)
   TradeUI_Bind(GuiTrade);
   TradeUI_Fill(%payload);
 }
-// SELL (nowe)
+
 function clientCmdTrade_OpenSell(%payload)
 {
   $TradeUI::lastRxTime = getSimTime();
@@ -270,8 +245,6 @@ function clientCmdTrade_OpenSell(%payload)
   TradeUI_Bind(GuiTrade);
   TradeUI_FillSell(%payload);
 }
-
-// --- GUI root ---------------------------------------------------------
 
 if (isObject(GuiTrade)) GuiTrade.delete();
 
@@ -285,20 +258,17 @@ new GuiControl(GuiTrade)
     text="Trade";
     canClose="1"; canMove="1";
     canMinimize="0"; canMaximize="0";
-    resizeWidth="0"; resizeHeight="0";     // brak zmiany rozmiaru
-
+    resizeWidth="0"; resizeHeight="0";
     closeCommand="Canvas.popDialog(GuiTrade);";
 
     position="10 10"; extent="740 520";
 
-    // tło – wewnątrz (nie pod belkę)
     new GuiBitmapCtrl() {
       position="12 44"; extent="716 464";
       bitmap="gui/images/Main_back_ornament.png"; canHit="0";
       horizSizing="width"; vertSizing="height";
     };
 
-    // PRZYCISKI U GÓRY – TAK JAK MIAŁEŚ
     new GuiControl() { position="24 56"; extent="692 24";
       new GuiButtonCtrl(){ profile="GuiButtonProfile"; text="Buy";  position="0 0";   extent="70 24";
         command="TradeUI_SwitchMode(\"buy\");"; };
@@ -308,7 +278,6 @@ new GuiControl(GuiTrade)
         command="if($TradeUI::mode $= \"sell\") TradeUI_RequestListSell($TradeUI::npcId); else TradeUI_RequestList($TradeUI::npcId);"; };
     };
 
-    // headers: Icon | Name | Price | Q | Qty | Buy/Sell
     new GuiControl(){ position="24 92"; extent="692 22";
       new GuiTextCtrl(){ profile="GuiTextProfile"; text="Icon";  position="6 2";   extent="40 18"; };
       new GuiTextCtrl(){ profile="GuiTextProfile"; text="Name";  position="70 2";  extent="200 18"; };

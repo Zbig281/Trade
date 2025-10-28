@@ -1,8 +1,3 @@
-// =======================================================
-// Trade Mod (server) – loader + INI (BUY + SELL)
-// Czysty ASCII / UTF-8 bez BOM
-// =======================================================
-
 function Trade__stripComment(%s) {
    %p = strPos(%s, ";");
    if (%p >= 0) return trim(getSubStr(%s, 0, %p));
@@ -24,25 +19,22 @@ if (!isObject(TradeSell))   new SimSet(TradeSell);   // SELL
 
 $TradeCfg::Path = "mods/server/trade/trade.ini";
 
-// załaduj subsystemy
 exec("mods/server/trade/trade_money.cs");
 exec("mods/server/trade/trade_svc.cs");
 exec("mods/server/trade/triger_gui.cs");
 
 // ---------- load config ----------
 function Trade_reloadConfig() {
-   // reset list
    while (TradeOffers.getCount() > 0) TradeOffers.getObject(0).delete();
    while (TradeSell.getCount()   > 0) TradeSell.getObject(0).delete();
 
-   // domyślne wartości
    $TradeCfg::CopperID = 1059;
    $TradeCfg::SilverID = 1060;
    $TradeCfg::GoldID   = 1061;
    $TradeCfg::CPS      = 100;   // copper per silver
    $TradeCfg::SPG      = 100;   // silver per gold
-   $TradeCfg::IconRoot = "gui/forms/";
-   $TradeCfg::RefundOnFail = 0; // zostawiamy drop na ziemię gdy brak miejsca
+   $TradeCfg::IconRoot = "gui/forms/"; 
+   $TradeCfg::RefundOnFail = 0;
 
    %f = new FileObject();
    if (!%f.openForRead($TradeCfg::Path)) {

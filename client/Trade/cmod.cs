@@ -1,6 +1,3 @@
-// ===== mods/client/cmod.cs =====
-// Klient: Trade GUI + NickTag HUD (zielony tekst)
-
 deactivatePackage(SPClientModPkg);
 
 if (!isObject(SPClientMod))
@@ -89,9 +86,6 @@ package SPClientModPkg
 activatePackage(SPClientModPkg);
 SPClientMod.setup();
 
-
-// ===== NickTag HUD (zielony kolor wymuszony lub z RGBA) =====
-
 if (!isObject(_SPNickHUD))
 {
    new ScriptObject(_SPNickHUD)
@@ -145,7 +139,6 @@ function _SPNick_prof(%size)
 
 function _SPNick_hex3(%rgba)
 {
-   // oczekuje "r g b a" (0..1). Domyślnie zielony
    %r = getWord(%rgba,0); if (%r $= "") %r = 0;
    %g = getWord(%rgba,1); if (%g $= "") %g = 1;
    %b = getWord(%rgba,2); if (%b $= "") %b = 0;
@@ -188,10 +181,7 @@ package SPNickHUDPkg
 
       %e.pos  = %pos;
       %e.text = (%text $= "" ? "Trade" : %text);
-
-      // ZIELONY na sztywno lub wg RGBA (jeśli przyjdzie) – wynik zawsze zielony domyślnie
       %hex = _SPNick_hex3(%rgba); if (%hex $= "" || %hex $= "000000") %hex = "00FF00";
-
       %e.ctrl.setText("<just:center><color:" @ %hex @ ">" @ %e.text);
       %e.ctrl.setVisible(1);
    }

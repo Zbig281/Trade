@@ -19,7 +19,7 @@ if (!isObject(SPTradeGui))
       _tickMs = 200;
 
       tagText  = "Trade";
-      tagRGBA  = "0 1 0 1";     // ZIELONY
+      tagRGBA  = "0 1 0 1";
       tagMinMoveDelta = 0.20;
 
       npcList = "";

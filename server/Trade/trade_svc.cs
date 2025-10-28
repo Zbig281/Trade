@@ -1,8 +1,3 @@
-// =======================================================
-// Trade Service (server)
-// BUY (jak było) + SELL (nowe RPC) – czysty ASCII
-// =======================================================
-
 function Trade_priceForQ(%baseCopperAtQ50,%q){
   if (%q $= "" || %q <= 0) %q = 50;
   %p = mFloor(%baseCopperAtQ50 * (%q / 50.0));
@@ -67,7 +62,6 @@ function Trade_cbPaid(%ctx,%ok,%msg){
   %added = TradeInv_Add(%client,%rec.itemId,%ctx.qty,%ctx.q);
 
   if (!%added){
-    // zostawiamy domyślne zachowanie gry – wyrzuci na ziemię
     commandToClient(%client,'Trade_Info',"No space in inventory — items may drop nearby.");
     %ctx.delete();
     return;
@@ -108,7 +102,6 @@ function Trade_findSell(%itemId)
 }
 
 // GUI powinno wysyłać: serverCmdTrade_Sell(%ctx, %itemId, %qty)
-// %qty – ile gracz chce sprzedać
 function serverCmdTrade_Sell(%client, %ctx, %itemId, %qty)
 {
    %qty = mClamp(mFloor(%qty), 1, 1000000);
@@ -149,7 +142,6 @@ function Trade_cbSold(%ctx, %ok, %msg)
       return;
    }
 
-   // wypłata
    if (%ctx.payoutC > 0)
       Trade_PayOut(%client, %ctx.payoutC);
 
