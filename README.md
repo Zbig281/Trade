@@ -34,7 +34,7 @@ On the server side, make sure you have the LiFx Framework installed, specificall
 You’re free to modify, edit, expand, and use this mod however you like.
 Everything is open for the community, feel free to build on top of it!
 
-##Credits
+## Credits
 Original base created by Zbig Brodaty.
 If you use anything from this mod, please mention that it was created by Zbig Brodaty.
 
