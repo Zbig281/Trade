@@ -33,7 +33,7 @@ function Trade_reloadConfig() {
    $TradeCfg::GoldID   = 1061;
    $TradeCfg::CPS      = 100;   // copper per silver
    $TradeCfg::SPG      = 100;   // silver per gold
-   $TradeCfg::IconRoot = "gui/forms/"; 
+   $TradeCfg::IconRoot = "mods/client/Trade/";
    $TradeCfg::RefundOnFail = 0;
 
    %f = new FileObject();
