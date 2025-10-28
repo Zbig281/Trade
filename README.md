@@ -10,6 +10,7 @@ $TradeCfg::IconRoot = "mods/client/Trade/icon/";
 
 This means the mod looks for icon files inside the mods/client/Trade/icon/ folder.
 You can replace or add your own icons there, just make sure the filenames match what’s defined in the Trade.ini.
+Alternatively, you can use icons from the client files located at art\2D\Items.
 
 ## NPC Configuration
 In the Trigger_gui.cs file, the admin can change the .dts model of the NPC that triggers the trade window.
