@@ -1,6 +1,3 @@
-// ===== mods/server/trade/triger_gui.cs =====
-// SPTradeGui + NickTag (TRIGGER @ 10m)
-
 deactivatePackage(SPTradeGui);
 
 if (!isObject(SPTradeGui))
