@@ -26,6 +26,10 @@ To enable the trade mod on the client side, make sure to add the following line 
 ```cpp
 exec("mods/client/trade/cmod.cs");
 ```
+Server Requirements
+
+The server must have the LiFx framework installed.
+Additionally, ensure that the file art.zip is present on the server side, as it contains required assets for the trade system.
 
 Modding & Editing
 You’re free to modify, edit, expand, and use this mod however you like.
