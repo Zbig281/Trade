@@ -26,3 +26,6 @@ Everything is open for the community, feel free to build on top of it!
 Credits
 Original base created by Zbig Brodaty.
 If you use anything from this mod, please mention that it was created by Zbig Brodaty.
+
+
+[Video demonstration](https://www.youtube.com/watch?v=8nYodt6wQxg)
