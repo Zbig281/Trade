@@ -11,7 +11,7 @@ $TradeCfg::IconRoot = "mods/client/Trade/icon/";
 This means the mod looks for icon files inside the mods/client/Trade/icon/ folder.
 You can replace or add your own icons there, just make sure the filenames match what’s defined in the Trade.ini.
 
-NPC Configuration
+## NPC Configuration
 In the Trigger_gui.cs file, the admin can change the .dts model of the NPC that triggers the trade window.
 To do this, edit the following line:
 ```cpp
@@ -21,20 +21,20 @@ You can replace "assel.dts" with any other .dts model you want to use as the tra
 
 ## Client Setup
 
-To enable the trade mod on the client side, make sure to add the following line in your **main.cs**:
+To enable the trade mod on the client side, make sure to add the following line in your **main.cs**
 
 ```cpp
 exec("mods/client/trade/cmod.cs");
 ```
 ## Server Requirements
 
-On the server side, make sure you have the LiFx Framework installed, specifically the art.zip file in the server's main directory:
+On the server side, make sure you have the LiFx Framework installed, specifically the art.zip file in the server's main directory
 
-Modding & Editing
+## Modding & Editing
 You’re free to modify, edit, expand, and use this mod however you like.
 Everything is open for the community, feel free to build on top of it!
 
-Credits
+##Credits
 Original base created by Zbig Brodaty.
 If you use anything from this mod, please mention that it was created by Zbig Brodaty.
 
