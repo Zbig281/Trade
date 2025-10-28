@@ -28,6 +28,6 @@ Original base created by Zbig Brodaty.
 If you use anything from this mod, please mention that it was created by Zbig Brodaty.
 
 
-[Video demonstration](https://www.youtube.com/watch?v=8nYodt6wQxg)
-[Watch the trade demonstration](https://youtu.be/JU0X8ffrkQI)
+[Video demonstration](https://www.youtube.com/watch?v=8nYodt6wQg)
 
+[Watch the trade demonstration](https://youtu.be/JU0X8ffrkQI)
