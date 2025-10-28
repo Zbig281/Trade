@@ -1,4 +1,4 @@
-# Trade System Mod
+# LiF Trade System Mod
 
 In the `Trade.ini` file, you can freely add items for buying and selling.
 
