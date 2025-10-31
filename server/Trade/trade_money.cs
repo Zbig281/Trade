@@ -9,7 +9,6 @@ function Trade_fromCopper(%cp){
   return %g TAB %s TAB %cp;
 }
 
-// ===================== INVENTORY API (silnik) =====================
 function TradeInv_Add(%client,%typeId,%amount,%quality){
   %pl = isObject(%client.player) ? %client.player : %client.getControlObject();
   if (!isObject(%pl)) { echo("[Trade$] No player on add"); return false; }
@@ -110,7 +109,6 @@ function TradeSvcDB::onCoins(%this,%rs){
     %this.ctx[%cid]=""; return;
   }
 
-  // plan: C -> S -> G
   %need=%ctx.payAmount;
   %plan=new SimSet();
 
@@ -169,7 +167,7 @@ function TradeSvcDB::onCoins(%this,%rs){
   %cb=%ctx.cb; call(%cb,%ctx,true,"OK");
   %this.ctx[%cid]="";
 }
-// ======================= PAY OUT (coins -> eq) =======================
+
 function Trade_PayOut(%client, %copper)
 {
    if (%copper <= 0) return;
@@ -183,10 +181,6 @@ function Trade_PayOut(%client, %copper)
    echo("[Trade$] PAYOUT g=" @ %g @ " s=" @ %s @ " c=" @ %c @ " (" @ %copper @ "c)");
 }
 
-// ======================= SELL DB DRIVER =======================
-// Reużywamy globalnego ScriptObject TradeSvcDB (nie ma klasy) – patrz BUY DB flow :contentReference[oaicite:1]{index=1}
-
-// Wywołanie wysokiego poziomu:
 // Trade_Sell_DB(%client, %itemType, %minQ, %wantQty, %unitCopper, %ctx, "Trade_cbSold")
 function Trade_Sell_DB(%client, %typeId, %minQ, %wantQty, %unitCopper, %ctx, %cb)
 {
@@ -267,7 +261,6 @@ function TradeSvcDB::onSellItems(%this, %rs)
       return;
    }
 
-   // Realizacja – usuwamy całe stacki i ewentualnie odtwarzamy resztę
    %client = 0;
    for (%i=0; %i<ClientGroup.getCount(); %i++) { %c = ClientGroup.getObject(%i); if (%c.getId()==%cid){ %client=%c; break; } }
    if (!isObject(%client))
@@ -286,10 +279,9 @@ function TradeSvcDB::onSellItems(%this, %rs)
       // return remainder if partial
       %rest = %p.orig - %p.take;
       if (%rest > 0)
-         TradeInv_Add(%client, %p.type, %rest); // Q przy zachowaniu przez silnik – akceptowalne
+         TradeInv_Add(%client, %p.type, %rest);
    }
 
-   // policz wypłatę
    %ctx.soldQty = 0;
    for (%i=0; %i<%plan.getCount(); %i++) %ctx.soldQty += %plan.getObject(%i).take;
    %ctx.payoutC = %ctx.soldQty * %ctx.sellUnit;
